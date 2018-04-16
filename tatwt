@@ -1,0 +1,53 @@
+#include<stdio.h>
+main()
+{
+int n,m,op,ch;
+printf("How many processes can be in a queue:");
+scanf("%d",&n);
+printf("How many processes have occupied the queue:");
+scanf("%d",&m);
+if(m==0)
+{
+	pall:
+	printf("Select an option:\n1.The barber room is occupied\n2.The barber room is not occupied\n");
+	scanf("%d",&op);
+	if(op==1)
+	{	
+		printf("The CPU is busy.. The upcoming process can wait in the queue\n");
+	}
+	else if(op==2)
+	{
+		shiv:
+		printf("The CPU is idle\n");
+		printf("Select an option:\n1.Want to enter a process.\n2.Don't want to enter a process\n");
+		scanf("%d",&ch);
+		if(ch==1)
+		{
+			printf("Your process has entered into CPU\n");
+		}
+		else if(ch==2)
+		{
+			printf("The CPU is idle\n");
+		}
+		else
+		{
+		printf("INCORRECT CHOICE!!!\n");
+		goto shiv;
+	}
+			
+	}
+	else
+	{
+		printf("INCORRECT CHOICE!!!\n");
+		goto pall;
+	}
+}
+else if(m==n)
+{
+	printf("Queue is full..No space available for a new process\n");
+}
+else if(m>0 && m<n)
+{
+	printf("The CPU is busy..The process can wait in a queue\n");
+}
+}
