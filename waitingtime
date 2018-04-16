@@ -1,0 +1,105 @@
+#include<stdio.h>
+#include<stdlib.h>
+int i;
+struct process
+{
+	int n;
+	int at;
+	int bt;
+	int ct;
+	int tat;
+	int wt;
+	int pos;
+	int tmp1;
+	int tmp2;
+	int tmp_at;
+}pro[20];	
+int main()
+{
+	int n;int i,j,index=0,v=1,c_time=0;
+	printf("Enter the total Number of Processes:");
+	scanf("%d",&n);
+int process_queue[n];
+	for(i=0;i<n;i++)
+	{
+		printf("Enter Arrival Time of process %d:",i+1);
+		scanf("%d",&pro[i].at);
+		printf("Enter Burst Time of process %d:",i+1);
+		scanf("%d",&pro[i].bt);
+		pro[i].n=i+1;
+	}
+	// sort the arrival time
+	for( i=0;i<n;i++)
+	{
+		for(j=0;j<(n-1)-i;j++)
+		{
+			if(pro[j].at>pro[j+1].at)
+			{
+				pro[j].tmp1=pro[j].at;
+				pro[j].at=pro[j+1].at;
+				pro[j+1].at=pro[j].tmp1;
+				pro[j].tmp2=pro[j].bt;
+				pro[j].bt=pro[j+1].bt;
+				pro[j+1].bt=pro[j].tmp2;
+			}
+     		}
+	 }
+	 for(i=0;i<n;i++)
+	 {
+	        c_time=c_time+pro[i].bt+3;
+	 }
+	 for(i=1;i<n;i++)//initilaise all position with zero
+	 {
+	 	pro[i].pos=0;
+	 }
+	 int process_count=1;
+	 i=0;
+	 while(process_count!=n)
+	 {
+	 	if(pro[i].pos!=1 && pro[i].at <= c_time)
+	 	{
+	 		if(pro[i].bt>10)
+			{
+				printf("Processing P %d from %d to %d seconds\n",pro[i].n,c_time,c_time + 10);
+				c_time += 10;
+				pro[i].bt -= 10;
+			}
+			else
+			{printf("Processing P %d from %d to %d seconds\n",pro[i].n,c_time,c_time + pro[i].bt);
+				c_time+=pro[i].bt;
+				process_queue[v]=pro[i].n;
+				v++;
+				pro[i].pos=1;
+				pro[i].ct=c_time;
+				
+				process_count++;
+			}
+		}
+		i=(i+1)%n;
+	}
+	printf("\nQueue order is:\n\t");//displaying the queue
+	for(i=0;i<v;i++)
+	{
+		printf("%d -> ",process_queue[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		pro[i].tat=pro[i].ct-pro[i].at;
+	}
+	for(i=0;i<n;i++)
+	{
+		pro[i].wt=pro[i].tat-pro[i].bt;
+	}
+	float sum_tat=0,sum_wt=0;
+	for(i=0;i<n;i++)
+	{
+		sum_tat+=pro[i].tat;
+	}
+	printf("\nAverage turnaround time:%f \n",sum_tat/n);
+	for(i=0;i<n;i++)
+	{
+		sum_wt+=pro[i].wt;
+	}
+	printf("Average waiting time:%f \n\n",sum_wt/n);
+	return 0;
+}
